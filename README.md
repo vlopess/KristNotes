@@ -1,4 +1,4 @@
-<img src="/src/assets/kristina.png" height="246"/>
+<img src="/src/assets/kristina.png" height="146"/>
 
 # KristNotes
 
