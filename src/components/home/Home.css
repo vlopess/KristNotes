@@ -1,0 +1,324 @@
+
+
+.app-container {
+    font-family: 'Inter', sans-serif;
+    overflow: hidden; /* Evita barras de rolagem devido às estrelas */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Centraliza o conteúdo verticalmente */
+    position: relative;
+    width: 100%; /* Garante que o container ocupe a largura total */
+}
+
+.star {
+    position: absolute;
+    background-color: var(--text-white);
+    border-radius: 50%;
+    opacity: 0;
+    animation: twinkle 4s infinite ease-in-out;
+    z-index: 1; /* Garante que as estrelas fiquem atrás do conteúdo principal */
+}
+@keyframes twinkle {
+    0%, 100% { opacity: 0; transform: scale(0.5); }
+    50% { opacity: 1; transform: scale(1); }
+}
+.star-small { width: 2px; height: 2px; }
+.star-medium { width: 3px; height: 3px; }
+.star-large { width: 4px; height: 4px; }
+
+.main-content-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20%;
+    margin-left: auto; /* mx-auto */
+    margin-right: auto; /* mx-auto */
+    padding: 2rem 1rem; /* px-4 py-8 */
+    z-index: 20;
+}
+@media (max-width: 768px) {
+    .main-content-container {
+        padding-top: 4rem; /* Ajusta para telas menores */
+    }
+}
+
+.main-image {
+    object-fit: contain;
+    border-radius: 100%; /* rounded-full */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+    z-index: 20;
+}
+
+.image-caption {
+    color: var(--text-white);
+    font-size: 16px;
+    font-weight: 600; /* Medium font weight */
+    line-height: 1.5; /* Boa legibilidade */
+    letter-spacing: 0.025em; /* Letras ligeiramente mais espaçadas */
+    margin-bottom: 2rem; /* Espaço abaixo da legenda */
+    margin-top: 1rem; /* Espaço acima da legenda */
+    opacity: 0.9;
+    max-width: 90%; /* Limita a largura para melhor legibilidade em telas maiores */
+    text-align: center; /* Centraliza o texto */
+}
+
+/* Estilos personalizados para os livros */
+.book {
+    position: absolute;
+    width: 40px;
+    height: 50px;
+    background-color: var(--book-brown-saddle); /* Marrom sela */
+    border-radius: 4px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    z-index: 10;
+    animation: jumpLightly 2s ease-in-out infinite; /* Aplica a animação de pulo */
+}
+.book::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 5px;
+    background-color: var(--book-brown-sienna); /* Siena */
+    border-radius: 2px 2px 0 0;
+}
+.book::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background-color: var(--book-brown-darker); /* Marrom mais escuro para a lombada */
+    border-radius: 0 0 4px 4px;
+}
+
+/* SVG de chapéu de formatura para conhecimento */
+.svg-cap {
+    position: absolute;
+    width: 3rem; /* w-12 */
+    height: 3rem; /* h-12 */
+    color: var(--accent-yellow-400); /* text-yellow-400 */
+    z-index: 10;
+    animation: jumpLightly 2s ease-in-out infinite; /* Aplica a animação de pulo */
+}
+
+/* SVG de lâmpada para ideias */
+.svg-lightbulb {
+    position: absolute;
+    width: 2.5rem; /* w-10 */
+    height: 2.5rem; /* h-10 */
+    color: var(--accent-yellow-300); /* text-yellow-300 */
+    z-index: 10;
+    animation: jumpLightly 2s ease-in-out infinite; /* Aplica a animação de pulo */
+}
+
+/* Keyframes para a animação de pulo leve */
+@keyframes jumpLightly {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); } /* Movimento sutil para cima */
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) { /* md */
+    .main-image {
+        width: 16rem; /* lg:w-96 */
+        height: 15rem; /* lg:h-96 */
+    }
+    .image-caption {
+        font-size: 1.25rem; /* text-xl em telas maiores */
+    }
+
+    .main-content-container {
+        width: 20%;
+    }
+}
+@media (min-width: 1024px) { /* lg */
+    .main-image {
+        width: 16rem; /* lg:w-96 */
+        height: 15rem; /* lg:h-96 */
+    }
+    .image-caption {
+        width: 30%;
+        /*font-size: 1.375rem; !* Ainda maior em telas muito grandes *!*/
+    }
+
+}
+@media (max-width: 767px) { /* Pequenas telas */
+    .main-image {
+        width: 16rem; /* lg:w-96 */
+        height: 15rem; /* lg:h-96 */
+    }
+    .book {
+        width: 30px;
+        height: 40px;
+    }
+
+    .main-content-container {
+        width: 85%;
+    }
+
+}
+
+.login-screen-full {
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: transparent; /* Alterado: Fundo transparente para mostrar as estrelas */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(100%); /* Começa de baixo para cima */
+    transition: opacity 0.7s ease-out, visibility 0.7s ease-out, transform 0.7s ease-out;
+    z-index: 30; /* Ajustado: Acima da landing page, mas abaixo do card de login */
+}
+
+.login-screen-full.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0); /* Desliza para a posição final */
+}
+
+.login-card-simplified {
+    background: var(--card-white); /* Fundo branco sólido para o card */
+    border-radius: 1.5rem; /* Bordas arredondadas grandes */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 90%;
+    max-width: 60rem; /* Largura máxima para o card */
+    min-height: 35rem; /* Altura mínima para o card */
+    display: flex; /* Para o layout dos painéis */
+    z-index: 40; /* Ajustado: Card de login acima da tela de login transparente e estrelas */
+    position: relative; /* Necessário para posicionar o botão de fechar */
+}
+
+.login-close-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: var(--text-gray);
+    cursor: pointer;
+    z-index: 50; /* Acima do card de login */
+}
+.login-close-button:hover {
+    color: var(--text-dark);
+}
+
+
+.login-left-panel-simplified {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 3rem;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+.login-header-simplified {
+    text-align: left;
+    width: 100%;
+    margin-bottom: 2rem; /* Espaço abaixo do header */
+}
+
+.login-header-simplified h2 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.login-header-simplified p {
+    font-size: 1rem;
+    color: var(--text-gray);
+}
+
+.login-form-simplified {
+    width: 100%;
+}
+
+.input-group-simplified {
+    width: 100%;
+    margin-bottom: 1.25rem;
+}
+
+.input-group-simplified input {
+    width: calc(100% - 2rem); /* Ajusta largura para padding */
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--input-border);
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    background-color: var(--input-bg);
+    color: var(--text-dark);
+    outline: none;
+}
+
+.input-group-simplified input::placeholder {
+    color: var(--text-gray);
+}
+
+.login-button-simplified {
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--button-blue);
+    color: var(--card-white);
+    border: none;
+    border-radius: 0.75rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    box-shadow: 0 5px 15px rgba(58, 98, 215, 0.3);
+    margin-top: 1.5rem; /* Espaço acima do botão */
+}
+
+.login-button-simplified:hover {
+    background-color: var(--button-blue-hover);
+}
+
+.login-right-panel-simplified {
+    flex: 1;
+    background: radial-gradient(circle at 70% 30%, rgba(168, 192, 255, 0.7) 0%, transparent 50%),
+    radial-gradient(circle at 30% 80%, rgba(136, 176, 255, 0.7) 0%, transparent 50%),
+    radial-gradient(circle at 90% 60%, rgba(192, 168, 255, 0.7) 0%, transparent 50%),
+    #5C6BC0;
+    border-radius: 1.5rem;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Conteúdo da Landing Page */
+.landing-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    width: 100%;
+    padding: 2rem 1rem;
+    position: relative;
+    z-index: 20; /* Ajustado: Conteúdo da landing acima das estrelas */
+    text-align: center;
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+.landing-content.hidden {
+    opacity: 0;
+    transform: translateY(-100%); /* Move para cima para sair da tela */
+    pointer-events: none; /* Desabilita interações */
+    position: absolute; /* Para não ocupar espaço */
+}
