@@ -3,8 +3,10 @@ import "./Home.css";
 import logo from "../../assets/kristina.png";
 import {Button} from "../button/Button.jsx";
 import {Link} from "react-router";
+import RightCardCarousel from "../carousel/Carousel.jsx";
+import {Header} from "../header/Header.jsx";
 
-export const Home = ({mode}) => {
+export const Home = () => {
 
     const [showLoginScreen, setShowLoginScreen] = useState(false); // Controla a exibição da tela de login
 
@@ -41,14 +43,14 @@ export const Home = ({mode}) => {
 
     return (
         <>
+            <Header/>
             <div id={"home-body"}>
-                <div className={`landing-content ${showLoginScreen ? 'hidden' : ''}`}>
+                <div className={`landing-content ${showLoginScreen ? 'hidden' : ''} `}>
                     <div className="app-container">
                         <div className="main-content-container">
-                            {/* Imagem principal da mulher */}
                             <img
                                 src={logo}
-                                alt="Ilustração de uma mulher"
+                                alt=""
                                 className="main-image"
                             />
 
@@ -82,23 +84,23 @@ export const Home = ({mode}) => {
                     </div>
                 </div>
                 {/* Tela de Login (Ocupa a tela inteira e aparece com animação) */}
-                <div className={`login-screen-full ${showLoginScreen ? 'show' : ''}`}>
+                <div className={`login-screen-full ${showLoginScreen ? 'show' : 'hidden'}`}>
                     <div className="login-card-simplified">
                         {/* Botão de fechar */}
                         <button className="login-close-button" onClick={handleCloseLoginScreen}>&times;</button>
 
                         <div className="login-left-panel-simplified">
                             <div className="login-header-simplified">
-                                <h2>Welcome home</h2>
+                                <h2>Log in</h2>
                                 <p>Please enter your details.</p>
                             </div>
 
                             <form className="login-form-simplified">
                                 <div className="input-group-simplified">
-                                    <input type="email" placeholder="Email" />
+                                    <input type="email" name="text" className="input-login" placeholder="E-mail"/>
                                 </div>
                                 <div className="input-group-simplified">
-                                    <input type="password" placeholder="Password" />
+                                    <input type="password" name="text" className="input-login" placeholder="Password"/>
                                 </div>
 
                                 <Link to={'/profile'}>
@@ -108,7 +110,7 @@ export const Home = ({mode}) => {
                         </div>
 
                         <div className="login-right-panel-simplified">
-                            {/* O painel direito tem um gradiente abstrato */}
+                            <RightCardCarousel />
                         </div>
                     </div>
                 </div>

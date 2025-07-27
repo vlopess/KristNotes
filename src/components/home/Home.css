@@ -1,7 +1,6 @@
 
 
 .app-container {
-    font-family: 'Inter', sans-serif;
     overflow: hidden; /* Evita barras de rolagem devido às estrelas */
     min-height: 100vh;
     display: flex;
@@ -18,8 +17,13 @@
     border-radius: 50%;
     opacity: 0;
     animation: twinkle 4s infinite ease-in-out;
-    z-index: 1; /* Garante que as estrelas fiquem atrás do conteúdo principal */
 }
+
+.light-mode .star {
+    background-color: #e0ff00
+}
+
+
 @keyframes twinkle {
     0%, 100% { opacity: 0; transform: scale(0.5); }
     50% { opacity: 1; transform: scale(1); }
@@ -63,6 +67,10 @@
     opacity: 0.9;
     max-width: 90%; /* Limita a largura para melhor legibilidade em telas maiores */
     text-align: center; /* Centraliza o texto */
+}
+
+.light-mode .image-caption{
+    color: #0F141F;
 }
 
 /* Estilos personalizados para os livros */
@@ -124,46 +132,7 @@
     50% { transform: translateY(-5px); } /* Movimento sutil para cima */
 }
 
-/* Responsive adjustments */
-@media (min-width: 768px) { /* md */
-    .main-image {
-        width: 16rem; /* lg:w-96 */
-        height: 15rem; /* lg:h-96 */
-    }
-    .image-caption {
-        font-size: 1.25rem; /* text-xl em telas maiores */
-    }
 
-    .main-content-container {
-        width: 20%;
-    }
-}
-@media (min-width: 1024px) { /* lg */
-    .main-image {
-        width: 16rem; /* lg:w-96 */
-        height: 15rem; /* lg:h-96 */
-    }
-    .image-caption {
-        width: 30%;
-        /*font-size: 1.375rem; !* Ainda maior em telas muito grandes *!*/
-    }
-
-}
-@media (max-width: 767px) { /* Pequenas telas */
-    .main-image {
-        width: 16rem; /* lg:w-96 */
-        height: 15rem; /* lg:h-96 */
-    }
-    .book {
-        width: 30px;
-        height: 40px;
-    }
-
-    .main-content-container {
-        width: 85%;
-    }
-
-}
 
 .login-screen-full {
     top: 0;
@@ -187,10 +156,16 @@
     transform: translateY(0); /* Desliza para a posição final */
 }
 
+.login-screen-full.hidden {
+    opacity: 0;
+    transform: translateY(100%); /* Move para cima para sair da tela */
+    pointer-events: none; /* Desabilita interações */
+    position: absolute; /* Para não ocupar espaço */
+}
+
 .login-card-simplified {
     background: var(--card-white); /* Fundo branco sólido para o card */
     border-radius: 1.5rem; /* Bordas arredondadas grandes */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     width: 90%;
     max-width: 60rem; /* Largura máxima para o card */
@@ -255,32 +230,21 @@
 }
 
 .input-group-simplified input {
-    width: calc(100% - 2rem); /* Ajusta largura para padding */
-    padding: 0.8rem 1rem;
-    border: 1px solid var(--input-border);
-    border-radius: 0.75rem;
-    font-size: 1rem;
-    background-color: var(--input-bg);
-    color: var(--text-dark);
-    outline: none;
+    width: 90%;
 }
 
-.input-group-simplified input::placeholder {
-    color: var(--text-gray);
-}
 
 .login-button-simplified {
-    width: 100%;
-    padding: 1rem;
+    width: 98%;
+    padding: 0.75rem;
     background-color: var(--button-blue);
     color: var(--card-white);
-    border: none;
     border-radius: 0.75rem;
     font-size: 1.125rem;
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-    box-shadow: 0 5px 15px rgba(58, 98, 215, 0.3);
+    border-color: rgba(58, 98, 215, 0.3);
     margin-top: 1.5rem; /* Espaço acima do botão */
 }
 
@@ -300,7 +264,20 @@
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    height: 45rem;
 }
+
+
+.light-mode .login-right-panel-simplified {
+    background:
+            radial-gradient(circle at 60% 30%, #F9D5B4 0%, transparent 40%),
+            radial-gradient(circle at 40% 80%, #F9D5B4 0%, transparent 40%),
+            radial-gradient(circle at 80% 60%, #F9D5B4 0%, transparent 30%),
+            #F9D5B4;
+
+
+}
+
 
 /* Conteúdo da Landing Page */
 .landing-content {
@@ -321,4 +298,71 @@
     transform: translateY(-100%); /* Move para cima para sair da tela */
     pointer-events: none; /* Desabilita interações */
     position: absolute; /* Para não ocupar espaço */
+}
+
+/* From Uiverse.io by Jaareet */
+.input-login {
+    border-color: rgba(58, 98, 215, 0.3);
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    font-weight: 500;
+    font-size: 16px;
+    color: #fff;
+    background-color: transparent;
+    border-radius: 15px;
+    outline: none;
+    padding: 10px 15px;
+}
+
+.light-mode .input-login {
+    color: #0F141F;
+    border-color: rgba(251, 191, 36, 0.3);
+}
+
+.light-mode .login-button-simplified {
+    color: #0F141F;
+    border-color: rgba(251, 191, 36, 0.3);
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) { /* md */
+    .main-image {
+        width: 16rem; /* lg:w-96 */
+        height: 15rem; /* lg:h-96 */
+    }
+    .image-caption {
+        font-size: 1.25rem; /* text-xl em telas maiores */
+    }
+
+    .main-content-container {
+        width: 20%;
+    }
+}
+@media (min-width: 1024px) { /* lg */
+    .main-image {
+        width: 16rem; /* lg:w-96 */
+        height: 15rem; /* lg:h-96 */
+    }
+    .image-caption {
+        width: 30%;
+        /*font-size: 1.375rem; !* Ainda maior em telas muito grandes *!*/
+    }
+
+}
+@media (max-width: 767px) { /* Pequenas telas */
+    .main-image {
+        width: 16rem; /* lg:w-96 */
+        height: 15rem; /* lg:h-96 */
+    }
+    .book {
+        width: 30px;
+        height: 40px;
+    }
+
+    .main-content-container {
+        width: 85%;
+    }
+    .login-right-panel-simplified {
+        display: none;
+    }
+
 }

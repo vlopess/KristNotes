@@ -1,11 +1,10 @@
-import "./profile.css"
+import "./me.css"
 import {UserInfoSection} from "../userinfosection/UserInfoSection.jsx";
 import {NotesSection} from "../notessection/NotesSection.jsx";
 import {Header} from "../header/Header.jsx";
 import {useTheme} from "../../ThemeProvider.jsx";
 
-
-export const Profile = () => {
+export const Me = () => {
 
     const { isLightMode } = useTheme();
 
@@ -20,7 +19,7 @@ export const Profile = () => {
                 <UserInfoSection/>
 
                 {/* Seção de Notas com Abas */}
-                <NotesSection/>
+                <NotesSection me={true}/>
             </main>
         </div>
     );

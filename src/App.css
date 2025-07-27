@@ -32,7 +32,7 @@
   --light-card-bg: #FFF0C2;
   --light-heading-color: #7B4E29;
   --light-link-icon-color: #7B4E29;
-  --light-item-bg: #F9D5B4;
+  --light-item-bg: rgba(123, 78, 41, 0.15);
   --light-item-hover-ring: #F9D5B4;
   --light-new-tag-bg: #F9D5B4;
   --light-new-tag-text: #3E2B1E;
@@ -54,8 +54,9 @@
   --book-brown-sienna: #A0522D;
   --book-brown-darker: #694F3C;
 }
+
 body{
-  background: linear-gradient(180deg, var(--primary-bg-start) 0%, var(--primary-bg-end) 100%);
   overflow-x: hidden;
   overflow-y: hidden;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
 }

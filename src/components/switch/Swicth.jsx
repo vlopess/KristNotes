@@ -1,14 +1,18 @@
 import "./Swicth.css";
+import {useTheme} from "../../ThemeProvider.jsx";
 
-export const Swicth = ({mode}) => {
+export const Swicth = () => {
+
+    const { isLightMode, toggleLightMode } = useTheme();
+
     return (
         <>
             <label className="switch">
                 <input
                     id="checkbox"
                     type="checkbox"
-                    checked={mode.isLightMode} // Controla o estado do checkbox
-                    onChange={mode.toggleLightMode} // Alterna o modo ao mudar o checkbox
+                    checked={isLightMode} // Controla o estado do checkbox
+                    onChange={toggleLightMode} // Alterna o modo ao mudar o checkbox
                 />
                 <span className="slider">
                     <div className="star_ star_1"></div>
