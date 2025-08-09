@@ -1,0 +1,156 @@
+
+.note-editor-responsive * {
+    box-sizing: border-box;
+}
+
+.note-editor-responsive .main-content {
+    padding: 16px;
+}
+
+.note-editor-responsive .note-editor-card {
+    max-width: 1100px;
+    margin: 0 auto;
+    background: transparent;
+    padding: 16px;
+    border-radius: 8px;
+}
+
+.note-editor-responsive .card-title {
+    margin: 0 0 12px 0;
+}
+
+.note-editor-responsive .validation-message {
+    color: #b00020;
+    margin-bottom: 8px;
+}
+
+.note-editor-responsive .note-input {
+    width: 49.4%;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(0,0,0,0.12);
+    font-size: 14px;
+}
+
+/* Tabs (mobile) */
+.note-editor-responsive .editor-tabs {
+    display: flex;
+    gap: 8px;
+    margin: 8px 0 12px 0;
+}
+
+.note-editor-responsive .editor-tab-button {
+    flex: 1;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(0,0,0,0.08);
+    background: rgba(0,0,0,0.02);
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.note-editor-responsive .editor-tab-button.active {
+    background: rgba(0,0,0,0.08);
+}
+
+/* Content panes */
+.note-editor-responsive .editor-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.note-editor-responsive .editor-pane,
+.note-editor-responsive .preview-pane {
+    display: none; /* mobile default: only active pane shown */
+}
+
+.note-editor-responsive .editor-pane.active,
+.note-editor-responsive .preview-pane.active {
+    display: block;
+}
+
+.note-editor-responsive .note-textarea {
+    width: 100%;
+    min-height: 44vh;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(0,0,0,0.08);
+    font-family: inherit;
+    font-size: 14px;
+    resize: none;
+}
+
+.note-editor-responsive .note-preview {
+    width: 100%;
+    min-height: 44vh;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(0,0,0,0.08);
+    overflow: auto;
+    background: rgba(0,0,0,0.2);
+}
+.light-mode .note-editor-responsive .note-preview {
+    background: rgba(0,0,0,0.02);
+}
+.note-editor-responsive .note-editor-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.note-editor-responsive .editor-button {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+
+/* ===== Desktop / larger screens: mostrar lado a lado e esconder abas ===== */
+@media (min-width: 768px) {
+    .note-editor-responsive .editor-tabs {
+        display: none; /* não queremos as abas no desktop */
+    }
+
+    .note-editor-responsive .editor-content-wrapper {
+        flex-direction: row;
+        gap: 16px;
+        align-items: stretch;
+    }
+
+    /* mostrar ambas as colunas lado-a-lado */
+    .note-editor-responsive .editor-pane,
+    .note-editor-responsive .preview-pane {
+        display: block !important;
+        flex: 1 1 0;
+    }
+
+    .note-editor-responsive .note-textarea,
+    .note-editor-responsive .note-preview {
+        min-height: 65vh;
+    }
+}
+
+/* modo escuro / claro (simples)
+   Se você já tiver classes globais use as suas; essas são só de exemplo */
+.note-editor-responsive.light-mode .note-input,
+.note-editor-responsive.light-mode .note-textarea {
+    background: #fff;
+    color: #111;
+}
+
+.note-editor-responsive.dark-mode .note-input,
+.note-editor-responsive.dark-mode .note-textarea {
+    background: #0f1720;
+    color: #fff;
+    border-color: rgba(255,255,255,0.06);
+}
+
+/* garantir mesma altura */
+.note-editor-responsive .note-textarea,
+.note-editor-responsive .note-preview {
+    max-height: 65vh; /* altura mínima confortável */
+}

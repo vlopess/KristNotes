@@ -1,0 +1,100 @@
+.settings-overlay {
+    display: flex;
+    width: 46.5%;
+    margin: 0 auto;
+}
+
+.settings-container {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--dark-card-bg);
+    border-radius: 0.375rem;
+    overflow: hidden; /* Garante que o border-radius funcione nas abas */
+    flex-grow: 1; /* Permite que o container de conteúdo cresça */
+}
+
+.light-mode .settings-container {
+    background-color: var(--light-card-bg);
+}
+
+.settings-actions{
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1rem;
+}
+
+label {
+    display: flex;
+    font-weight: bold;
+    margin-bottom: 10px;
+    justify-content: start;
+}
+
+.inpdddut[type="file"] {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: none;
+    background-color: var(--dark-bg);
+    border-radius: 5px;
+    width: 140%;
+    cursor: pointer;
+}
+
+.light-mode .inpdddut[type="file"] {
+    background-color: var(--light-item-bg);
+}
+
+
+.settings-form {
+    padding-top: 25px;
+    margin: 10px;
+}
+
+.update-button {
+    padding: 10px 20px;
+    height: 100%;
+    background-color: var(--dark-bg);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.light-mode .update-button {
+    background-color: var(--light-item-bg);
+}
+
+.row-picture {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.description-textarea {
+    resize: none;
+    width: 96%;
+    height: 96%;
+    padding: 0.75rem;
+    border: none; /* Removido a borda para ficar dentro do container pai */
+    background-color: var(--dark-item-bg);
+    color: var(--dark-text);
+    font-size: 1rem;
+    outline: none; /* Remove outline ao focar */
+}
+
+.light-mode .description-textarea {
+    background-color: var(--light-item-bg);
+    color: var(--light-text);
+}
+
+.row-description {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.row-description-wrapper {
+    width: 69%;
+    margin: 0 auto;
+}

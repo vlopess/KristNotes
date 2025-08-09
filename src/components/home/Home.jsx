@@ -9,6 +9,8 @@ import {Header} from "../header/Header.jsx";
 export const Home = () => {
 
     const [showLoginScreen, setShowLoginScreen] = useState(false); // Controla a exibição da tela de login
+    const [showLoginForm, setShowLoginForm] = useState(true); // Controla a exibição da tela de login
+    const [showRegisterForm, setShowRegisterForm] = useState(false); // Controla a exibição da tela de login
 
     useEffect(() => {
         function createStars(numStars) {
@@ -90,14 +92,20 @@ export const Home = () => {
                         <button className="login-close-button" onClick={handleCloseLoginScreen}>&times;</button>
 
                         <div className="login-left-panel-simplified">
-                            <div className="login-header-simplified">
+                            {showLoginForm &&(<div className="login-header-simplified">
                                 <h2>Log in</h2>
                                 <p>Please enter your details.</p>
-                            </div>
+                            </div>)}
 
-                            <form className="login-form-simplified">
+                            {showRegisterForm &&(<div className="login-header-simplified">
+                                <h2>Register</h2>
+                                <p>Please enter your details.</p>
+                            </div>)}
+
+
+                            {showLoginForm &&(<form className="login-form-simplified">
                                 <div className="input-group-simplified">
-                                    <input type="email" name="text" className="input-login" placeholder="E-mail"/>
+                                    <input type="text" name="text" className="input-login" placeholder="Username"/>
                                 </div>
                                 <div className="input-group-simplified">
                                     <input type="password" name="text" className="input-login" placeholder="Password"/>
@@ -106,11 +114,41 @@ export const Home = () => {
                                 <Link to={'/profile'}>
                                     <button className="login-button-simplified">Login</button>
                                 </Link>
-                            </form>
+                            </form>)}
+
+                            {showRegisterForm &&(<form className="login-form-simplified">
+                                <div className="input-group-simplified">
+                                    <input type="text" name="text" className="input-login" placeholder="Username"/>
+                                </div>
+                                <div className="input-group-simplified">
+                                    <input type="email" name="text" className="input-login" placeholder="E-mail"/>
+                                </div>
+                                <div className="input-group-simplified">
+                                    <input type="password" name="text" className="input-login" placeholder="Password"/>
+                                </div>
+
+                                <Link to={'/profile'}>
+                                    <button className="login-button-simplified">Register</button>
+                                </Link>
+                            </form>)}
+
+                            {showLoginForm && (<div>
+                                <p>Are you not user? <Link onClick={() => {
+                                    setShowRegisterForm(true);
+                                    setShowLoginForm(false)
+                                }}>Get started up!</Link></p>
+                            </div>)}
+
+                            {showRegisterForm &&(<div>
+                                <p>Are you ready user? <Link onClick={() => {
+                                    setShowLoginForm(true);
+                                    setShowRegisterForm(false);
+                                }}>Do login now!</Link></p>
+                            </div>)}
                         </div>
 
                         <div className="login-right-panel-simplified">
-                            <RightCardCarousel />
+                            <RightCardCarousel/>
                         </div>
                     </div>
                 </div>

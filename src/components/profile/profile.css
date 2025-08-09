@@ -58,7 +58,7 @@
 
 
 .main-content {
-    max-width: 960px; /* container */
+    /*max-width: 960px;  container */
     margin-left: auto;
     margin-right: auto;
     padding: 2rem 1rem; /* py-8 px-4 */
@@ -197,6 +197,7 @@
     border-radius: 0.375rem; /* rounded-md */
     display: flex;
     transition: all 0.2s ease;
+    cursor: pointer;
 }
 
 .roadmap-item svg {
@@ -307,33 +308,6 @@
     justify-content: center;
     align-items: center;
     z-index: 1000;
-}
-
-.note-editor-card {
-    background-color: var(--dark-card-bg);
-    color: var(--dark-text);
-    padding: 1.5rem; /* Ajustado para acomodar as abas */
-    border-radius: 0.75rem;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    width: 90%;
-    max-width: 800px; /* Aumentado o max-width para acomodar o layout lado a lado */
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    height: 90%;
-}
-.light-mode .note-editor-card {
-    background-color: var(--light-card-bg);
-    color: var(--light-text);
-}
-.note-editor-card h3 {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: var(--dark-heading-color);
-    margin-bottom: 1rem;
-}
-.light-mode .note-editor-card h3 {
-    color: var(--light-heading-color);
 }
 
 .note-input {
