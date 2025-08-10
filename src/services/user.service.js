@@ -1,9 +1,17 @@
 import SupabaseService from './supabase.service';
-import { SUPABASE_CONFIG } from './supabase.config';
+import { SUPABASE_CONFIG } from '../supabase.config';
+import {getCurrentUserId} from "../utils/currentUser.js";
 
 class UserService extends SupabaseService {
     constructor() {
         super('users');
+    }
+
+    async fetchCurrentUser() {
+        const userId = await getCurrentUserId();
+        const { data: user, error: userError } = await this.getById(userId);
+        if (userError) throw userError;
+        return { user, userError };
     }
 
     async createUserWithPicture(userData, pictureFile) {
@@ -26,8 +34,7 @@ class UserService extends SupabaseService {
             userData.picture_url = publicUrl;
         }
 
-        // 3. Cria o usuário
-        return this.create(userData);
+        return this.upsert(userData);
     }
 
     async updateUserPicture(userId, pictureFile) {
@@ -42,7 +49,7 @@ class UserService extends SupabaseService {
         }
 
         // 3. Faz upload da nova imagem
-        const filePath = `user_${userId}_${Date.now()}_${pictureFile.name}`;
+        const filePath = `${userId}/${Date.now()}_${pictureFile.name}`;
         const { error: uploadError } = await this.uploadFile(
             SUPABASE_CONFIG.BUCKET_NAME,
             filePath,
@@ -52,12 +59,17 @@ class UserService extends SupabaseService {
         if (uploadError) throw uploadError;
 
         // 4. Atualiza a URL da imagem no usuário
-        const { publicUrl } = await this.getFileUrl(
+        const publicUrl  = await this.getFileUrl(
             SUPABASE_CONFIG.BUCKET_NAME,
             filePath
         );
+        console.log('publicUrl', publicUrl);
 
         return this.update(userId, { picture_url: publicUrl });
+    }
+
+    async updateUserBio(userId, newBio) {
+        return this.update(userId, { bio: newBio });
     }
 }
 

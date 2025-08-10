@@ -2,7 +2,7 @@ import SupabaseService from './supabase.service';
 
 class UserSavedNotesService extends SupabaseService {
     constructor() {
-        super('user_saved_notes');
+        super('users_saved_notes');
     }
 
     async getSavedNotesByUserId(userId) {

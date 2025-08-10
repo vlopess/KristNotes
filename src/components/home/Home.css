@@ -278,6 +278,10 @@
 
 }
 
+body.hide-scroll {
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
 
 /* Conteúdo da Landing Page */
 .landing-content {
@@ -311,6 +315,7 @@
     border-radius: 15px;
     outline: none;
     padding: 10px 15px;
+    margin-top: 10px;
 }
 
 .light-mode .input-login {

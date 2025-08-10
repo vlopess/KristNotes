@@ -1,0 +1,48 @@
+.skeleton-card {
+    min-height: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 1rem;
+    border-radius: 0.375rem;
+    background: linear-gradient(
+            90deg,
+            var(--dark-item-bg) 25%,
+            #2B2B44 50%,
+            var(--dark-item-bg) 75%
+    );
+    background-size: 200% 100%;
+    background-position: 200% 0;  /* <-- posição inicial */
+    animation: shimmer 1.2s infinite;
+    transition: all 0.2s ease;
+}
+
+.dark-mode .skeleton-card {
+    background: linear-gradient(
+            90deg,
+            rgba(26, 26, 46, 0.15) 25%,
+            rgba(43, 43, 68, 0.25) 50%,
+            rgba(26, 26, 46, 0.40) 75%
+    );
+    background-size: 200% 100%;
+    background-position: 200% 0; /* <-- posição inicial */
+    animation: shimmer 1.2s infinite;
+}
+
+.light-mode .skeleton-card {
+    background: linear-gradient(
+            90deg,
+            rgba(123, 78, 41, 0.15) 25%,
+            rgba(123, 78, 41, 0.25) 50%,
+            rgba(123, 78, 41, 0.40) 75%
+    );
+    background-size: 200% 100%;
+    background-position: 200% 0; /* <-- posição inicial */
+    animation: shimmer 1.2s infinite;
+}
+
+@keyframes shimmer {
+    to {
+        background-position: -100% 0; /* animação do background */
+    }
+}

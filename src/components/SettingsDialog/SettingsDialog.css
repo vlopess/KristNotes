@@ -37,7 +37,7 @@ label {
     border: none;
     background-color: var(--dark-bg);
     border-radius: 5px;
-    width: 140%;
+    max-width: 140%;
     cursor: pointer;
 }
 
@@ -69,6 +69,8 @@ label {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    width: 97%;
+    margin-left: 10px;
 }
 
 .description-textarea {

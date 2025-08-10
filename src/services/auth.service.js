@@ -1,5 +1,3 @@
-import { createClient } from '@supabase/supabase-js';
-import { SUPABASE_CONFIG } from './supabase.config';
 import {supabase} from "./supabase.client.js";
 
 
@@ -11,17 +9,24 @@ class AuthService {
 
     // Cadastro com email e senha
     async signUpWithEmail(email, password, userMetadata = {}) {
-        const { data, error } = await this.supabase.auth.signUp({
-            email,
-            password,
-            options: {
-                data: {
-                    ...userMetadata,
-                    avatar_url: '',
+        try{
+            const { data, error } = await this.supabase.auth.signUp({
+                email,
+                password,
+                options: {
+                    data: {
+                        ...userMetadata
+                    }
                 }
-            }
-        });
-        return { data, error };
+            });
+            console.log(error);
+            console.log(data);
+            return { data, error };
+        }catch (e) {
+            console.log(e);
+            alert(e);
+            return {e}
+        }
     }
 
     // Login com email e senha

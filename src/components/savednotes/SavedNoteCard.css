@@ -1,0 +1,39 @@
+.saved-note-card {
+    position: relative;
+    background-color: var(--dark-bg);
+    border: 2px solid var(--dark-logo-color); /* Borda verde para destacar */
+    border-radius: 8px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 200px;
+    transition: box-shadow 0.2s ease;
+}
+
+.light-mode .saved-note-card{
+    background-color: var(--light-button-bg);
+    border: 2px solid var(--light-logo-color);
+}
+
+.note-icon {
+    color: white;
+    font-size: 18px;
+}
+
+.note-title {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.saved-icon {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    color: var(--dark-logo-color);
+}
+
+.light-mode .saved-icon {
+    color: var(--light-logo-color);
+}

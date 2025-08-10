@@ -1,39 +1,70 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import MarkdownViewer from "../markdown/MarkdownViewer.jsx";
 import { useTheme } from "../../ThemeProvider.jsx";
-import { useNavigate } from "react-router";
+import {useNavigate, useParams} from "react-router";
 import { Header } from "../header/Header.jsx";
 import './noteeditor.css';
+import UserNotesService from "../../services/user-notes.service.js";
 
 export const NoteEditor = () => {
     const [noteTitle, setNoteTitle] = useState('');
     const [noteContent, setNoteContent] = useState('');
     const [validationMessage, setValidationMessage] = useState('');
     const [activeEditorTab, setActiveEditorTab] = useState('edit');
+    const [isLoading, setIsLoading] = useState(false);
     const { isLightMode } = useTheme();
     const navigate = useNavigate();
+    const { id } = useParams();
+
+
+
+    useEffect(() => {
+        const fetchEditNote = async () => {
+            if (!id) return;
+
+            const { data, error } = await UserNotesService.fetchByID(atob(id));
+
+            if (error) {
+                console.log(error);
+                return;
+            }
+
+            console.log(data);
+
+            setNoteTitle(data[0].title);
+            setNoteContent(data[0].content);
+        };
+
+        fetchEditNote();
+    }, [id]);
 
     const handleSave = () => {
         if (noteTitle.trim() === '' || noteContent.trim() === '') {
             setValidationMessage('Por favor, preencha o título e o conteúdo da nota.');
             return;
         }
-
-        handleSaveNote({ title: noteTitle, content: noteContent });
-        setNoteTitle('');
-        setNoteContent('');
-        setValidationMessage('');
-        setActiveEditorTab('edit');
+        setIsLoading(true);
+        handleSaveNote({ id: id, title: noteTitle, content: noteContent }).then(() => {
+            setIsLoading(false);
+            setNoteTitle('');
+            setNoteContent('');
+            setValidationMessage('');
+            setActiveEditorTab('edit');
+        });
     };
 
-    const handleSaveNote = ({ title, content }) => {
+    const handleSaveNote = async ({id, title, content }) => {
         const newNote = {
-            id: Date.now(),
+            id,
             title,
             content
         };
-        // Aqui você pode enviar para um store / API. Por enquanto só log:
-        console.log('Salvou nota:', newNote);
+        const { data, error } = await UserNotesService.createNote(newNote);
+
+        if(error) console.log(error);
+
+        navigate('/me');
+
     };
 
     return (
@@ -95,8 +126,8 @@ export const NoteEditor = () => {
                     </div>
 
                     <div className="note-editor-actions">
-                        <button onClick={handleSave} className="editor-button save-button">Save note</button>
-                        <button onClick={() => navigate(-1)} className="editor-button cancel-button">Cancel</button>
+                        <button onClick={handleSave} className="editor-button save-button">{isLoading ? 'Saving...' : 'Save note'}</button>
+                        {!isLoading &&(<button onClick={() => navigate(-1)} className="editor-button cancel-button">Cancel</button>)}
                     </div>
                 </div>
             </main>

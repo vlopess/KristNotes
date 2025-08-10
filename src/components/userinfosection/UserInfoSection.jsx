@@ -1,5 +1,8 @@
 import {useTheme} from "../../ThemeProvider.jsx";
 import {SettingsDialog} from "../SettingsDialog/SettingsDialog.jsx";
+import {useEffect, useState} from "react";
+import UserService from "../../services/user.service.js";
+import {Image, Shimmer} from "react-shimmer";
 
 export const UserInfoSection = ({me = false, showDialogConfig, setShowDialogConfig}) => {
 
@@ -7,28 +10,46 @@ export const UserInfoSection = ({me = false, showDialogConfig, setShowDialogConf
 
     const [backgroundColor, textColor] = isLightMode ? ["FFF0C2", "7B4E29"] : ["2C2C40", "9F7AEA"];
 
+    const [userData, setUserData] = useState(null);
 
-    const srcUrl = `https://placehold.co/180x180/${backgroundColor}/${textColor}?text=V`;
+    const [userDataUpdated, setUserDataUpdated] = useState(null);
+
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const {user, userError} = await UserService.fetchCurrentUser();
+            if(userError) return;
+            setUserData(user);
+        }
+        fetchData()
+    }, [userDataUpdated]);
+
+    const srcUrl =  userData?.picture_url ? userData.picture_url : userData?.username ? `https://placehold.co/130x130/${backgroundColor}/${textColor}?text=${userData.username[0]}` : ``;
 
     return (
         <>
             <section className="user-info-section">
                 <div className="user-photo-container">
-                    <img
-                        src={srcUrl}
-                        alt="User Photo"
+
+                    {srcUrl &&(<Image
                         className="user-photo"
-                    />
+                        src={srcUrl}
+                        fallback={<Shimmer width={0} height={0}/>}
+                        fadeIn={true}
+                    />)}
+
+                    {!srcUrl &&(<Shimmer width={130} height={130}/>)}
                 </div>
 
                 {/* Card com nome e redes sociais */}
                 <div className="user-card">
                     <div>
-                        <p className="user-name">
-                            @Vlopes
-                        </p>
+                        {userData &&(<p className="user-name">
+                            @{userData?.username}
+                        </p>)}
                         <p className="user-description">
-                            A software developer
+                            {userData?.bio}
                         </p>
                     </div>
                     {me &&(<div className="social-icons">
@@ -46,6 +67,9 @@ export const UserInfoSection = ({me = false, showDialogConfig, setShowDialogConf
             </section>
             {me && showDialogConfig && (
                 <SettingsDialog
+                    userDataUpdated={userDataUpdated}
+                    setUserDataUpdated={setUserDataUpdated}
+                    userData={userData}
                     onCancel={() => setShowDialogConfig(false)}
                 />
             )}

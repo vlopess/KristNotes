@@ -1,5 +1,3 @@
-import { createClient } from '@supabase/supabase-js';
-import { SUPABASE_CONFIG } from './supabase.config';
 import {supabase} from "./supabase.client.js";
 
 
@@ -34,6 +32,14 @@ class SupabaseService {
         return { data, error };
     }
 
+    async upsert(item) {
+        const { data, error } = await this.supabase
+            .from(this.tableName)
+            .upsert(item)
+            .select();
+        return { data, error };
+    }
+
     async update(id, updates) {
         const { data, error } = await this.supabase
             .from(this.tableName)
@@ -64,7 +70,14 @@ class SupabaseService {
         const { data } = this.supabase
             .storage
             .from(bucketName)
-            .getPublicUrl(filePath);
+            .getPublicUrl(filePath, {
+                transform: {
+                    width: 130,
+                    height: 130,
+                    resize: 'cover'
+                }
+            });
+        console.log('data', data);
         return data.publicUrl;
     }
 

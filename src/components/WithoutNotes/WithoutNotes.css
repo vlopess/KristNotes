@@ -1,0 +1,8 @@
+.container-without-notes {
+    display: flex;
+    flex-direction: column;
+    width: 34%;
+    margin: 0 auto;
+    align-items: center;
+    text-align: center;
+}

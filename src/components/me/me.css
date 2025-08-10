@@ -92,6 +92,7 @@
     box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06); /* shadow-lg */
     align-self: center;
     width: 90%;
+    min-height: 75px;
 }
 .dark-mode .user-card {
     background-color: var(--dark-card-bg);
@@ -172,6 +173,12 @@
     padding-left: 18%;
 }
 
+.row-options{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
 .tab-button {
     padding: 0.75rem 1.5rem; /* py-3 px-6 */
     font-size: 1rem; /* text-base */
@@ -227,11 +234,11 @@
 .dark-mode .roadmap-item {
     background-color: var(--dark-item-bg);
 }
-.dark-mode .roadmap-item:hover {
-    box-shadow: 0 0 0 2px var(--dark-item-hover-ring); /* ring-2, ring-purple-500 */
-}
 .light-mode .roadmap-item {
     background-color: var(--light-item-bg);
+}
+.dark-mode .roadmap-item:hover {
+    box-shadow: 0 0 0 2px var(--dark-item-hover-ring); /* ring-2, ring-purple-500 */
 }
 .light-mode .roadmap-item:hover {
     box-shadow: 0 0 0 2px var(--light-item-hover-ring); /* ring-2, ring-peach-400 */
