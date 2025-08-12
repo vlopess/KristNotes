@@ -2,12 +2,21 @@ import React from "react";
 import {FaRegBookmark} from "react-icons/fa";
 import "./SavedNoteCard.css";
 import {useTheme} from "../../ThemeProvider.jsx";
+import UserService from "../../services/user.service.js";
+import {useNavigate} from "react-router";
 
-export default function SavedNoteCard({ title }) {
+export default function SavedNoteCard({ note }) {
     const {isLightMode} = useTheme();
+    const navigate = useNavigate();
+
+    async function handleRedirect() {
+        const {data, error } = await UserService.getUserById(note.user_id);
+        navigate(`/${data.username}/${btoa(note.id)}`);
+        navigate(0);
+    }
 
     return (
-        <div className="saved-note-card">
+        <div className="saved-note-card" onClick={() => handleRedirect()}>
             {/* Ícone canto superior direito */}
             <div className="saved-icon">
                 <FaRegBookmark size={18} />
@@ -58,7 +67,7 @@ export default function SavedNoteCard({ title }) {
             </svg>
 
             {/* Título */}
-            <span className="note-title">{title}</span>
+            <span className="note-title">{note.title}</span>
         </div>
     );
 }

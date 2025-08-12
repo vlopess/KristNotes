@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import notes from "../../assets/notes.svg";
 import {useTheme} from "../../ThemeProvider.jsx";
 import {useNavigate} from "react-router";
 import MarkdownViewer from "../markdown/MarkdownViewer.jsx";
@@ -9,37 +8,72 @@ import {NotesSkeleton} from "../shimmer/NotesSkeleton.jsx";
 import {WithoutSavedNotes} from "../WithoutNotes/WithoutSavedNotes.jsx";
 import {WithoutNotes} from "../WithoutNotes/WithoutNotes.jsx";
 import SavedNoteCard from "../savednotes/SavedNoteCard.jsx";
+import {Badge} from "../badge/Badge.jsx";
+import {SaveNoteButton} from "../savenotebutton/SaveNoteButton.jsx";
+import UserSavedNotesService from "../../services/user-saved-notes.service.js";
+import LoginDialog from "../LoginDialog/LoginDialog.jsx";
 
-export const NotesSection = ({me = false}) => {
+export const NotesSection = ({me = false, id, noteId}) => {
     const {isLightMode} = useTheme();
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('myNotes');
     const [selectedItem, setSelectedItem] = useState(null);
-    const [isLoading, setLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
     const [userNotes, setUserNotes] = useState(null);
     const [userSavedNotes, setUserSavedNotes] = useState(null);
+    const [isDialogOpen, setDialogOpen] = useState(false);
 
     useEffect(() => {
-        const fecthData = async () => {
-            setLoading(true);
-            const { data, error } = await UserNotesService.getNotesCurrentUser();
+        const fetchData = async () => {
+            setIsLoading(true);
+            const { data, error } = me ? await UserNotesService.getNotesCurrentUser() : await UserNotesService.getNotesByUsername(id);
             if (error) {
                 console.log(error);
             } else {
-                setUserNotes(
-                    data.map(note => ({
-                        id: note.id,
-                        title: note.title,
-                        content: note.content,
-                        created_at: note.created_at
-                    }))
-                );
-                setLoading(false);
+                if(data){
+                    setUserNotes(
+                        data.map(note => ({
+                            id: note.id,
+                            title: note.title,
+                            content: note.content,
+                            created_at: note.created_at
+                        }))
+                    );
+                }
+                setIsLoading(false);
             }
-
+            if(noteId){
+                setSelectedItem(
+                    data.find(e => e.id === atob(noteId))
+                );
+            }
         }
-        fecthData();
+        fetchData();
     }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            if(activeTab === 'savedNotes'){
+                setIsLoading(true);
+                const { data, error } =  me ? await UserSavedNotesService.getSavedNotesCurrentUser() : await UserSavedNotesService.getSavedNotesByUsername(id);
+                if (error) {
+                    console.log(error);
+                } else {
+                    if(data){
+                        setUserSavedNotes(
+                            data.map(note => ({
+                                id: note.note_id,
+                                title: note.users_notes.title,
+                                user_id: note.users_notes.user_id,
+                            }))
+                        );
+                    }
+                    setIsLoading(false);
+                }
+            }
+        }
+        fetchData();
+    }, [activeTab]);
 
 
     return (
@@ -56,15 +90,18 @@ export const NotesSection = ({me = false}) => {
                                     width={"24"}
                                     xmlns="http://www.w3.org/2000/svg"
                                     style={{"cursor": "pointer"}}
-                                    onClick={() => setSelectedItem(null)}
+                                    onClick={() => {
+                                        setSelectedItem(null);
+                                        navigate(`/${id}`);
+                                    }}
                                 >
                                     <path d="M19 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H19z"/>
                                 </svg>
 
-                                <svg width="24px" height="24px" viewBox="0 0 24 24" fill="currentColor"
-                                     onClick={() => navigate(`/new-note/${btoa(selectedItem.id)}`)}
-                                     style={{"cursor": "pointer"}}
-                                     xmlns="http://www.w3.org/2000/svg">
+                                {me &&(<svg width="24px" height="24px" viewBox="0 0 24 24" fill="currentColor"
+                                      onClick={() => navigate(`/new-note/${btoa(selectedItem.id)}`)}
+                                      style={{"cursor": "pointer"}}
+                                      xmlns="http://www.w3.org/2000/svg">
                                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                                     <g id="SVGRepo_iconCarrier">
@@ -72,16 +109,18 @@ export const NotesSection = ({me = false}) => {
                                             d="M20.1497 7.93997L8.27971 19.81C7.21971 20.88 4.04971 21.3699 3.27971 20.6599C2.50971 19.9499 3.06969 16.78 4.12969 15.71L15.9997 3.84C16.5478 3.31801 17.2783 3.03097 18.0351 3.04019C18.7919 3.04942 19.5151 3.35418 20.0503 3.88938C20.5855 4.42457 20.8903 5.14781 20.8995 5.90463C20.9088 6.66146 20.6217 7.39189 20.0997 7.93997H20.1497Z"
                                             stroke="currentColor" stroke-width="0.5" stroke-linecap="round"
                                             stroke-linejoin="round"></path>
-                                        <path d="M21 21H12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                        <path d="M21 21H12" stroke="currentColor" stroke-width="1.5"
+                                              stroke-linecap="round"
                                               stroke-linejoin="round"></path>
                                     </g>
-                                </svg>
+                                </svg>)}
+                                {!me &&(<SaveNoteButton noteId={noteId ? atob(noteId) : selectedItem.id} setDialogOpen={setDialogOpen}/>)}
                             </div>
-                            <div className={'row-options'}>
+                            <div className={'row-options title-time'}>
                                 <h2>
                                     {selectedItem.title}
                                 </h2>
-                                <p>{formatDate(selectedItem.created_at)}</p>
+                                <Badge text={formatDate(selectedItem.created_at)}/>
                             </div>
                         </div>
                         <div className={'container-viewer'}>
@@ -115,9 +154,10 @@ export const NotesSection = ({me = false}) => {
                         {/* Conteúdo da aba ativa */}
                         {activeTab === "myNotes" && (
                             <>
-                                {(!userNotes && !isLoading) && (
-                                    <WithoutNotes/>
+                                {!isLoading && (!userNotes || userNotes.length === 0) && (
+                                    <WithoutNotes me={me}/>
                                 )}
+
                                 <div className="tab-content">
                                     <div className="grid-container">
                                         {isLoading && <NotesSkeleton/>}
@@ -181,17 +221,14 @@ export const NotesSection = ({me = false}) => {
 
                         {activeTab === "savedNotes" && (
                             <>
-                                {!userSavedNotes && (
-                                    // <WithoutSavedNotes/>
-                                    <SavedNoteCard title="Nota Teste Atualizado Tbm" />
+                                {(!userSavedNotes || userSavedNotes.length < 1) && !isLoading && (
+                                    <WithoutSavedNotes me={me}/>
                                 )}
                                 <div className="tab-content">
                                     <div className="grid-container">
+                                        {isLoading && <NotesSkeleton/>}
                                         {userSavedNotes?.map((item) => (
-                                            <div key={item.name} className="roadmap-item">
-                                                <img src={notes} alt=""/>
-                                                <span className="roadmap-item-text">{item.name}</span>
-                                            </div>
+                                            <SavedNoteCard note={item}/>
                                         ))}
                                     </div>
                                 </div>
@@ -214,6 +251,14 @@ export const NotesSection = ({me = false}) => {
                     </button>
                 </div>
             )}
+            <LoginDialog
+                open={isDialogOpen}
+                onClose={() => setDialogOpen(false)}
+                onLogin={() => {
+                    setDialogOpen(false);
+                    window.location.href = "/";
+                }}
+            />
         </>
     );
 

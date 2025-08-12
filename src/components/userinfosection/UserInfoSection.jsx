@@ -3,8 +3,9 @@ import {SettingsDialog} from "../SettingsDialog/SettingsDialog.jsx";
 import {useEffect, useState} from "react";
 import UserService from "../../services/user.service.js";
 import {Image, Shimmer} from "react-shimmer";
+import {useNavigate} from "react-router";
 
-export const UserInfoSection = ({me = false, showDialogConfig, setShowDialogConfig}) => {
+export const UserInfoSection = ({me = false, showDialogConfig, setShowDialogConfig, id}) => {
 
     const { isLightMode } = useTheme();
 
@@ -15,12 +16,13 @@ export const UserInfoSection = ({me = false, showDialogConfig, setShowDialogConf
     const [userDataUpdated, setUserDataUpdated] = useState(null);
 
 
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
-            const {user, userError} = await UserService.fetchCurrentUser();
-            if(userError) return;
-            setUserData(user);
+            const {data, error} = me ? await UserService.fetchCurrentUser() : await UserService.getByUsername(id);
+            if(error) navigate('/not-found');
+            setUserData(data);
         }
         fetchData()
     }, [userDataUpdated]);
@@ -53,10 +55,10 @@ export const UserInfoSection = ({me = false, showDialogConfig, setShowDialogConf
                         </p>
                     </div>
                     {me &&(<div className="social-icons">
-                        <a rel="noopener noreferrer"
-                           className="social-link">
-                            <SocialIcon type="share"/>
-                        </a>
+                        {/*<a rel="noopener noreferrer"*/}
+                        {/*   className="social-link">*/}
+                        {/*    <SocialIcon type="share"/>*/}
+                        {/*</a>*/}
                         <a rel="noopener noreferrer"
                            onClick={() => setShowDialogConfig(true)}
                            className="social-link">

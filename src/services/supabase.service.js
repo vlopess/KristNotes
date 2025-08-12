@@ -77,7 +77,6 @@ class SupabaseService {
                     resize: 'cover'
                 }
             });
-        console.log('data', data);
         return data.publicUrl;
     }
 

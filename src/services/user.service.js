@@ -9,9 +9,15 @@ class UserService extends SupabaseService {
 
     async fetchCurrentUser() {
         const userId = await getCurrentUserId();
-        const { data: user, error: userError } = await this.getById(userId);
-        if (userError) throw userError;
-        return { user, userError };
+        const { data: data, error: error } = await this.getById(userId);
+        if (error) throw error;
+        return { data,  };
+    }
+
+    async getUserById(userId) {
+        const { data: data, error: error } = await this.getById(userId);
+        if (error) throw error;
+        return { data,  };
     }
 
     async createUserWithPicture(userData, pictureFile) {
@@ -38,18 +44,16 @@ class UserService extends SupabaseService {
     }
 
     async updateUserPicture(userId, pictureFile) {
-        // 1. Primeiro obtém o usuário para ver se já tem uma imagem
         const { data: user, error: userError } = await this.getById(userId);
         if (userError) throw userError;
 
-        // 2. Se já tiver imagem, deleta a antiga
         if (user.picture_url) {
             const oldFilePath = user.picture_url.split('/').pop();
             await this.deleteFile(SUPABASE_CONFIG.BUCKET_NAME, oldFilePath);
         }
 
         // 3. Faz upload da nova imagem
-        const filePath = `${userId}/${Date.now()}_${pictureFile.name}`;
+        const filePath = `${userId}/${Date.now()}_${userId}`;
         const { error: uploadError } = await this.uploadFile(
             SUPABASE_CONFIG.BUCKET_NAME,
             filePath,
@@ -63,13 +67,21 @@ class UserService extends SupabaseService {
             SUPABASE_CONFIG.BUCKET_NAME,
             filePath
         );
-        console.log('publicUrl', publicUrl);
 
         return this.update(userId, { picture_url: publicUrl });
     }
 
     async updateUserBio(userId, newBio) {
         return this.update(userId, { bio: newBio });
+    }
+
+    async getByUsername(username) {
+        const { data, error } = await this.supabase
+            .from(this.tableName)
+            .select('*')
+            .eq('username', username)
+            .single();
+        return { data, error };
     }
 }
 

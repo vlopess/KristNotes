@@ -6,10 +6,19 @@ export const getCurrentUserId = async () => {
 
     if (user) {
         const uid = user.id; // UID do usuário
-        console.log("UID:", uid);
         return uid;
     } else {
         console.log("Nenhum usuário logado.");
+        return null;
+    }
+}
+
+export const getCurrentUsername = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (user) {
+        return user.user_metadata.username;
+    } else {
         return null;
     }
 }

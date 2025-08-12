@@ -19,8 +19,6 @@ class AuthService {
                     }
                 }
             });
-            console.log(error);
-            console.log(data);
             return { data, error };
         }catch (e) {
             console.log(e);

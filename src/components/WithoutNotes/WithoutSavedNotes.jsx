@@ -1,7 +1,7 @@
 import React from "react";
 import './WithoutNotes.css';
 
-export const WithoutSavedNotes = () => {
+export const WithoutSavedNotes = ({me}) => {
     return <div className={'container-without-notes'}>
         <svg width="64px" height="64px" viewBox="0 0 24 24" fill="currentColor"
              xmlns="http://www.w3.org/2000/svg">
@@ -17,9 +17,9 @@ export const WithoutSavedNotes = () => {
                     fill="currentColor"></path>
             </g>
         </svg>
-        <h3>You don’t have any saved notes yet.</h3>
-        <p>To save notes, just visit other users’ profiles using their profile
+        <h3>Don’t have any saved notes yet.</h3>
+        {me &&(<p>To save notes, just visit other users’ profiles using their profile
             links
-            and save from there!</p>
+            and save from there!</p>)}
     </div>;
 }

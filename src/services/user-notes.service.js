@@ -16,6 +16,25 @@ class UserNotesService extends SupabaseService {
         return { data, error };
     }
 
+    async getNotesByUsername(username) {
+        const { data: users, error: userError } = await this.supabase
+            .from('users')
+            .select('id')
+            .eq('username', username)
+            .single();
+
+        if (userError || !users) {
+            return { data: null, error: userError || new Error('Usuário não encontrado') };
+        }
+
+        const { data, error } = await this.supabase
+            .from(this.tableName)
+            .select('*')
+            .eq('user_id', users.id);
+        return { data, error };
+    }
+
+
     async getNotesByUserId(uid) {
 
         const { data, error } = await this.supabase
@@ -34,14 +53,8 @@ class UserNotesService extends SupabaseService {
     }
 
     async createNote(newNote) {
-        const uid = await getCurrentUserId();
-
-        return this.upsert({
-            id: newNote.id,
-            user_id: uid,
-            title: newNote.title,
-            content: newNote.content
-        });
+        newNote.user_id = await getCurrentUserId();
+        return this.upsert(newNote);
     }
 }
 

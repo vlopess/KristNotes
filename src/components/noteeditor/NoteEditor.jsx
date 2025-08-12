@@ -29,7 +29,6 @@ export const NoteEditor = () => {
                 return;
             }
 
-            console.log(data);
 
             setNoteTitle(data[0].title);
             setNoteContent(data[0].content);
@@ -44,7 +43,7 @@ export const NoteEditor = () => {
             return;
         }
         setIsLoading(true);
-        handleSaveNote({ id: id, title: noteTitle, content: noteContent }).then(() => {
+        handleSaveNote({ id: id ? atob(id) : '', title: noteTitle, content: noteContent }).then(() => {
             setIsLoading(false);
             setNoteTitle('');
             setNoteContent('');
@@ -54,16 +53,21 @@ export const NoteEditor = () => {
     };
 
     const handleSaveNote = async ({id, title, content }) => {
+        const user_id = '';
         const newNote = {
             id,
             title,
-            content
+            content,
+            user_id
         };
+
+        if(!newNote.id) delete newNote.id;
+
         const { data, error } = await UserNotesService.createNote(newNote);
 
         if(error) console.log(error);
 
-        navigate('/me');
+        navigate(-1);
 
     };
 

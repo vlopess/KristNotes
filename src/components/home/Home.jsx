@@ -6,6 +6,7 @@ import {Link, useNavigate} from "react-router";
 import RightCardCarousel from "../carousel/Carousel.jsx";
 import { Header } from "../header/Header.jsx";
 import authService from "../../services/auth.service.js";
+import AlnumInput from "../AlnumInput/AlnumInput.jsx";
 
 export const Home = () => {
     const [showLoginScreen, setShowLoginScreen] = useState(false);
@@ -122,7 +123,7 @@ export const Home = () => {
         if (error) {
             setLoginServerError(error.message);
         } else {
-            navigate('/me');
+            navigate(0);
         }
     };
 
@@ -141,7 +142,7 @@ export const Home = () => {
         if (error) {
             setRegisterServerError(error.message);
         } else {
-            navigate('/me');
+            navigate(`/${regUsername}`);
         }
     };
 
@@ -286,22 +287,8 @@ export const Home = () => {
                                         noValidate
                                     >
                                         <div className="input-group-simplified">
-                                            {regUsername && (
-                                                <small
-                                                    style={{color: "#888", marginTop: "4px", display: "block"}}
-                                                >
-                                                    Your unique address will be: {regUsername.toLowerCase()}.kristnotes.com
-                                                </small>
-                                            )}
-                                            <input
-                                                type="text"
-                                                name="username"
-                                                className="input-login"
-                                                placeholder="Username"
-                                                value={regUsername}
-                                                onChange={(e) => setRegUsername(e.target.value)}
-                                                required
-                                            />
+                                            <AlnumInput value={regUsername} onChange={setRegUsername}/>
+
                                             {registerErrors.username && (
                                                 <div style={{ color: "red", fontSize: "0.85rem" }}>
                                                     {registerErrors.username}

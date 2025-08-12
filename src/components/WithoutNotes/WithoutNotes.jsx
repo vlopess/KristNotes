@@ -1,7 +1,7 @@
 import React from "react";
 import './WithoutNotes.css';
 
-export const WithoutNotes = () => {
+export const WithoutNotes = ({me}) => {
     return <div className={'container-without-notes'}>
         <svg width="64px" height="64px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" id="create-note"
              className="icon glyph" fill="currentColor">
@@ -15,7 +15,7 @@ export const WithoutNotes = () => {
                     fill="currentColor"></path>
             </g>
         </svg>
-        <h3>Looks like you haven’t made any notes yet.</h3>
-        <p>Tap “+ Add note” to create your first one and get started!</p>
+        <h3>It appears that no notes have been made yet.</h3>
+        {me &&(<p>Tap “+ Add note” to create your first one and get started!</p>)}
     </div>;
 }

@@ -1,6 +1,6 @@
 .settings-overlay {
     display: flex;
-    width: 46.5%;
+    max-width: 960px;
     margin: 0 auto;
 }
 
@@ -67,10 +67,15 @@ label {
 
 .row-picture {
     display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 97%;
-    margin-left: 10px;
+    justify-content: space-between; /* espaço entre label/input e botão */
+    align-items: center; /* alinhamento vertical central */
+    gap: 10px; /* espaçamento entre os itens */
+    width: 69%;
+    margin: 0 auto;
+}
+
+.column-picture {
+    width: 44vw;
 }
 
 .description-textarea {
@@ -99,4 +104,23 @@ label {
 .row-description-wrapper {
     width: 69%;
     margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    .row-picture {
+        width: 80%;
+        margin-bottom: 10px;
+        justify-content: center;
+    }
+
+    .inpdddut[type="file"] {
+        width: 70%;
+    }
+    .column-picture {
+        width: 44vw;
+    }
+
+    .row-description-wrapper {
+        width: 80%;
+    }
 }

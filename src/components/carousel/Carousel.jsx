@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import kristine from '../../assets/Notes_of_Inspiration.png';
 import './Carousel.css';
 
 const messages = [
@@ -29,7 +30,7 @@ export default function RightCardCarousel() {
             <div className={`carousel-slide ${fadeState}`}>
                 {messages[index]}
             </div>
-            <img src={"src/assets/Notes_of_Inspiration.png"} alt="imagem" className="image-carousel"/>
+            <img src={kristine} alt="imagem" className="image-carousel"/>
         </div>
     );
 }

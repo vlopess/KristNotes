@@ -19,7 +19,7 @@ export const SettingsDialog = ({ onCancel, userData, userDataUpdated, setUserDat
     const [successPicture, setSuccessPicture] = useState(false);
 
     const handleLogout = () => {
-        authService.signOut().then(() => navigate('/'));
+        authService.signOut().then(() => navigate("/"));
     }
 
     const handleFileChange = (e) => {
@@ -36,13 +36,13 @@ export const SettingsDialog = ({ onCancel, userData, userDataUpdated, setUserDat
         setLoadingPicture(true);
         setErrorPicture(null);
         const userId = await getCurrentUserId();
-        const {error} = await userService.updateUserPicture(userId, selectedFile);
-        console.log('error', error);
-        if(error) setErrorPicture(error);
-        else {
+        try {
+            await userService.updateUserPicture(userId, selectedFile);
             setSuccess(true);
             setLoadingPicture(false);
             setUserDataUpdated(!userDataUpdated);
+        }catch (e) {
+            setError(e);
         }
     }
 
@@ -50,7 +50,6 @@ export const SettingsDialog = ({ onCancel, userData, userDataUpdated, setUserDat
         setLoading(true);
         setError(null);
         const userId = await getCurrentUserId();
-        console.log('bio', bio);
         const {error} = await userService.updateUserBio(userId, bio);
         if(error) setError(error);
         else setLoading(false);
@@ -63,11 +62,10 @@ export const SettingsDialog = ({ onCancel, userData, userDataUpdated, setUserDat
                 <div className="settings-container">
                     <div className={'settings-form'}>
                         <div className={'row-picture'}>
-                            {errorPicture && <p className="error">{errorPicture}</p>}
-                            {successPicture && <p>Photo updated successfully!</p>}
-                            <div>
-                                <label htmlFor="arquivo">Update profile picture:</label>
-                                <input onChange={handleFileChange} accept=".jpg, .jpeg, .png, .gif" className="inpdddut" name="arquivo" id="arquivo"
+                            <div className={'column-picture'}>
+                                <label htmlFor="file">Update profile picture:</label>
+
+                                <input onChange={handleFileChange} accept=".jpg, .jpeg, .png, .gif" className="inpdddut" name="arquivo" id="file"
                                        type="file"/>
                             </div>
                             <button onClick={() => handleUpdatePicture()} className={'update-button'}>{loadingPicture ? 'Updating...' : 'Update'}</button>
