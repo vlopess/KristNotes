@@ -11,24 +11,21 @@ KristNotes is an open-source social platform focused on collaborative learning a
 ## 🚀 Features
 
 - 📝 Create and share structured notes
-- 🔍 Tagging and searching
 - 👥 Public spaces
 - 🌙 Light and dark mode
 - 🔒 Supabase Auth + storage
-
-
-## 👥 Contributing
-
-We welcome contributions!
-
-- Read the [✍️ Contributing Guide](CONTRIBUTING.md)
-
 
 ## ⚙️ Project Setup
 
 For full local setup instructions (including Supabase configuration), see:
 
 👉 [📄 docs/SETUP.md](docs/SETUP.md)
+
+## 👥 Contributing
+
+We welcome contributions!
+
+- Read the [✍️ Contributing Guide](CONTRIBUTING.md)
 
 
 ## 📜 License
