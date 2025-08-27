@@ -7,10 +7,17 @@ import RightCardCarousel from "../carousel/Carousel.jsx";
 import { Header } from "../header/Header.jsx";
 import authService from "../../services/auth.service.js";
 import AlnumInput from "../AlnumInput/AlnumInput.jsx";
+import Carousel from "../Carousel/Carousel.jsx";
+import {BiArrowBack, BiJoystickButton} from "react-icons/bi";
+import {TbArrowBack} from "react-icons/tb";
+import {FaArrowCircleUp} from "react-icons/fa";
+import {IoMdArrowUp} from "react-icons/io";
 
 export const Home = () => {
-    const [showLoginScreen, setShowLoginScreen] = useState(false);
-    const [showLoginForm, setShowLoginForm] = useState(true);
+    const [showStartScreen, setShowStartScreen] = useState('');
+    const [showTutorialScreen, setShowTutorialScreen] = useState('hidden');
+    const [showLoginScreen, setShowLoginScreen] = useState('hidden');
+    const [showLoginForm, setShowLoginForm] = useState('hidden');
     const [showRegisterForm, setShowRegisterForm] = useState(false);
 
     // Login states
@@ -56,11 +63,28 @@ export const Home = () => {
     }, []);
 
     const handleGetStartedClick = () => {
-        setShowLoginScreen(true);
+        setShowTutorialScreen('show');
+        setShowStartScreen('hidden');
     };
 
     const handleCloseLoginScreen = () => {
-        setShowLoginScreen(false);
+        setShowTutorialScreen('hidden');
+        setShowStartScreen('show');
+        clearLoginErrors();
+        clearRegisterErrors();
+    };
+
+
+    const handleloginClick = () => {
+        setShowTutorialScreen('hidden');
+        setShowStartScreen('hidden');
+        setShowLoginScreen('show');
+    };
+
+    const handleBackScreen = () => {
+        setShowTutorialScreen('show');
+        setShowStartScreen('hidden');
+        setShowLoginScreen('hidden');
         clearLoginErrors();
         clearRegisterErrors();
     };
@@ -150,7 +174,7 @@ export const Home = () => {
         <>
             <Header />
             <div id={"home-body"}>
-                <div className={`landing-content ${showLoginScreen ? "hidden" : ""} `}>
+                <div className={`landing-content ${showStartScreen} `}>
                     <div className="app-container">
                         <div className="main-content-container">
                             <img
@@ -189,10 +213,21 @@ export const Home = () => {
                     </div>
                 </div>
 
+                {/* Tutorial Screen */}
+                <div className={`login-screen-full ${showTutorialScreen}`}>
+                    <div>
+                        <Carousel/>
+                        <div style={{"display": "flex", "justify-content": "center"}}>
+                            <IoMdArrowUp text={"Let me join"} arrow={true}  style={{'cursor': 'pointer', 'padding': '12px'}} onClick={handleCloseLoginScreen}/>
+                            <Button text={"Let me join"} arrow={true} onClick={handleloginClick}/>
+                        </div>
+                    </div>
+                </div>
+
                 {/* Login Screen */}
-                <div className={`login-screen-full ${showLoginScreen ? "show" : "hidden"}`}>
+                <div className={`login-screen-full ${showLoginScreen}`}>
                     <div className="login-card-simplified">
-                        <button className="login-close-button" onClick={handleCloseLoginScreen}>
+                    <button className="login-close-button" onClick={handleBackScreen}>
                             &times;
                         </button>
 
@@ -371,6 +406,7 @@ export const Home = () => {
                         </div>
                     </div>
                 </div>
+
             </div>
         </>
     );
